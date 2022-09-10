@@ -8,17 +8,17 @@ import { join } from "path";
 export const findDirectory = (
   searchName: string,
   startDirectory = [process.cwd()]
-): string[] => {
+): string => {
   const scanStartDir = readdirSync(join(...startDirectory));
   const filteredScan = scanStartDir.filter((dir) =>
     isDir(join(...[...startDirectory, dir]))
   );
   if (filteredScan.includes(searchName)) {
-    return [...startDirectory, searchName];
+    return join(...[...startDirectory, searchName]);
   } else if (filteredScan.length === 0) {
-    return [];
+    return "";
   } else {
-    let subScanFound = [] as string[];
+    let subScanFound = "";
     filteredScan.every((dir) => {
       const result = findDirectory(searchName, [...startDirectory, dir]);
       if (result.length > 0) {
